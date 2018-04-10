@@ -1,14 +1,15 @@
 {
   "name": "hotspring",
-  "version": "0.0.1",
+  "version": "0.0.0-development",
   "description": "hotspring - a simple library for interfacing with databases",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules/.bin/mocha",
+    "semantic-release": "semantic-release"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LewisTehMinerz/hotspring.git"
+    "url": "https://github.com/LewisTehMinerz/hotspring.git"
   },
   "keywords": [
     "database"
@@ -20,7 +21,8 @@
   },
   "homepage": "https://github.com/LewisTehMinerz/hotspring#readme",
   "devDependencies": {
-    "cz-conventional-changelog": "^2.1.0"
+    "cz-conventional-changelog": "^2.1.0",
+    "semantic-release": "^15.1.5"
   },
   "config": {
     "commitizen": {
