@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  prep:
     docker:
       - image: 'circleci/node:latest'
     steps:
@@ -8,9 +8,40 @@ jobs:
       - run:
           name: Install packages
           command: npm install
+
+  lint:
+    docker:
+      - image: 'circleci/node:latest'
+    steps:
       - run:
-          name: Test hotspring
-          command: npm test
+          name: Linting code
+          command: npm run lint
+
+  json:
+    docker:
+      - image: 'circleci/node:latest'
+    steps:
+      - run:
+          name: Run test [JSON]
+          command: npm run test-json
+
+  semantic-release:
+    docker:
+      - image: 'circleci/node:latest'
+    steps:
       - run:
           name: Running semantic-release
           command: npm run semantic-release || true
+
+workflows:
+  version: 2
+  jobs:
+    test-and-deploy:
+      jobs:
+        - prep
+        - json:
+            requires:
+              - prep
+        - semantic-release:
+            requires:
+              - json
