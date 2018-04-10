@@ -1,0 +1,16 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: 'circleci/node:latest'
+    steps:
+      - checkout
+      - run:
+          name: Install packages
+          command: npm install
+      - run:
+          name: Test hotspring
+          command: npm test
+      - run:
+          name: Running semantic-release
+          command: npm run semantic-release || true
