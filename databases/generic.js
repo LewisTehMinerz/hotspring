@@ -14,13 +14,11 @@
 /**
  * Options for a {@link Server}.
  * @typedef {Object} ServerOptions
- * @property {Connection} connection The connection that this server is on.
  * @property {Database[]} databases The databases in the server.
  */
 /**
  * Options for a {@link Database}.
  * @typedef {Object} DatabaseOptions
- * @property {Server} server The server that this database is on.
  * @property {Table[]} tables The tables in the database.
  */
 /**
@@ -32,7 +30,6 @@
 /**
  * Options for a {@link Table}.
  * @typedef {Object} TableOptions
- * @property {Database} database The database that this table is on.
  * @property {Column[]} columns The columns of the table.
  * @property {Row[]} rows The rows of a table.
  */
@@ -44,7 +41,6 @@
 /**
  * Options for a {@link Row}.
  * @typedef {Object} RowOptions
- * @property {Table} table The table that this row is on.
  * @property {RowValue} value The value of the row.
  */
 /**
@@ -54,7 +50,6 @@
 /** 
  * Options for a {@link Key}.
  * @typedef {Object} KeyOptions
- * @property {Database} database The database that this key is on.
  * @property {String} type The type of key, such as a boolean, int, string, etc.
  * @property {KeyValue} value The value of the key.
 */
@@ -81,7 +76,7 @@ export class Connection {
 }
 
 /** 
- * A server, generally used for SQL-like servers with multiple databases.
+ * A server.
  */
 export class Server {
     /**
@@ -90,13 +85,6 @@ export class Server {
      */
     constructor(options) {
         this.options = options;
-    }
-
-    /**
-     * Gets the connection that this server is on. See {@link Connection}.
-     */
-    get connection() {
-        return this.options.connection;
     }
 
     /**
@@ -120,13 +108,6 @@ export class Database {
     }
 
     /**
-     * Gets the server that this database is on. See {@link Server}.
-     */
-    get server() {
-        return this.options.server;
-    }
-
-    /**
      * Gets the tables for this database. See {@link Table}.
      */
     get tables() {
@@ -135,7 +116,7 @@ export class Database {
 }
 
 /** 
- * A table, generally used for SQL-like databases.
+ * A table.
  */
 export class Table {
     /**
@@ -145,31 +126,10 @@ export class Table {
     constructor(options) {
         this.options = options;
     }
-
-    /**
-     * Gets the database that this table is on. See {@link Database}.
-     */
-    get database() {
-        return this.options.database;
-    }
-
-    /**
-     * Gets the columns of the table. See {@link Column}.
-     */
-    get columns() {
-        return this.options.columns;
-    }
-
-    /**
-     * Gets the rows of the table. See {@link Row}.
-     */
-    get rows() {
-        return this.options.rows;
-    }
 }
 
 /** 
- * A row, generally used for SQL-like tables.
+ * A row.
  */
 export class Row {
     /**
@@ -179,10 +139,17 @@ export class Row {
     constructor(options) {
         this.options = options;
     }
+
+    /**
+     * Gets the value of this row.
+     */
+    get value() {
+        return this.options.value;
+    }
 }
 
 /** 
- * A key, generally used for Redis-like databases.
+ * A key.
  */
 export class Key {
     /**
@@ -192,14 +159,16 @@ export class Key {
     constructor(options) {
         this.options = options;
     }
+
     /**
-     * Returns the type of the key.
+     * Gets the type of the key.
      */
     get type() {
         return this.options.type;
     }
+
     /**
-     * Returns the value of the key.
+     * Gets the value of the key.
      */
     get value() {
         return this.options.value;
