@@ -49,6 +49,7 @@ module.exports.JSONConnection = class JSONConnection extends Connection {
         return new Promise((resolve, reject) => {
             fs.readFile(this.options.filePath, {encoding: 'utf-8'}, (err, data) => {
                 if (err) {
+                    debug('error occured while loading database, rejecting promise');
                     reject(err);
                     return;
                 }
@@ -60,16 +61,17 @@ module.exports.JSONConnection = class JSONConnection extends Connection {
                 let tempKeys = [];
                 // read the JSON and get tables
                 // this does a similar thing to JSONDatabase#toJSON, but goes from JSON to the classes.
+                debug(json);
                 Object.keys(json).forEach(table => {
                     debug('loading table ' + table);
                     // get all keys in this table
-                    Object.keys(table).forEach(key => {
+                    Object.keys(json[table]).forEach(key => {
                         // push to a temp array for later
                         debug('loading key ' + key);
                         tempKeys.push(new exports.JSONKey({
                             name: key,
                             value: json[table][key]
-                        }))
+                        }));
                     });
                     // use tempKeys to build a JSONTable object and push that to the tempTables array
                     debug('adding table to the final table array with keys');
@@ -80,7 +82,7 @@ module.exports.JSONConnection = class JSONConnection extends Connection {
                     // rinse and repeat
                 });
                 // create database
-                debug('create database');
+                debug('creating database');
                 this.options.database = new exports.JSONDatabase({
                     tables: tempTables
                 });
@@ -97,6 +99,7 @@ module.exports.JSONConnection = class JSONConnection extends Connection {
      */
     save() {
         return new Promise((resolve, reject) => {
+            debug('saving data');
             fs.writeFile(this.options.filePath, this.options.database.toJSON(), err => {
                 if (err) reject(err);
                 debug('saved data');
@@ -126,6 +129,19 @@ module.exports.JSONDatabase = class JSONDatabase extends Database {
     }
 
     /**
+     * Gets a table in this database.
+     * @param {String} name The name of the table.
+     */
+    table(name) {
+        for (let i = 0; i <= this.options.tables.length; i++) {
+            if (this.options.tables[i].name === name) {
+                return this.options.tables[i];
+            }
+        }
+        return null;
+    }
+
+    /**
      * Add a table to the database.
      * @param {JSONTable} table The table to add to this database.
      */
@@ -139,20 +155,21 @@ module.exports.JSONDatabase = class JSONDatabase extends Database {
      */
     toJSON() {
         // create a blank array to store the table data in
-        let base = [];
+        var base = {};
         debug('converting database to JSON');
         this.tables.forEach(table => {
-            debug('loading table ' + table);
+            debug('loading table ' + table.name);
             // create a blank object to store each key in
             let tableData = {};
             table.keys.forEach(key => {
-                debug('loading key ' + key);
+                debug('loading key ' + key.name);
                 // add a key to the data
                 tableData[key.name] = key.value;
             });
             // push the table data to the array
+            debug('table data for table ' + table.name + ' is ' + require('util').inspect(tableData));
             debug('writing table');
-            base[table] = tableData;
+            base[table.name] = tableData;
             // rinse and repeat
         });
         return JSON.stringify(base);
@@ -183,6 +200,19 @@ module.exports.JSONTable = class JSONTable extends Table {
      */
     get keys() {
         return this.options.keys;
+    }
+
+    /**
+     * Gets a key in this table.
+     * @param {String} name The name of the key.
+     */
+    key(name) {
+        for (let i = 0; i <= this.options.keys.length; i++) {
+            if (this.options.keys[i].name === name) {
+                return this.options.keys[i];
+            }
+        }
+        return null;
     }
 
     /**
