@@ -4,11 +4,11 @@ jobs:
     docker:
       - image: 'circleci/node:latest'
     steps:
+      - checkout
       - restore_cache:
           keys:
             - npm-deps-{{ checksum "package.json" }}
             - npm-deps-
-      - checkout
       - run:
           name: Install packages
           command: npm install
@@ -21,6 +21,7 @@ jobs:
     docker:
       - image: 'circleci/node:latest'
     steps:
+      - checkout
       - restore_cache:
           keys:
             - npm-deps-{{ checksum "package.json" }}
@@ -33,6 +34,7 @@ jobs:
     docker:
       - image: 'circleci/node:latest'
     steps:
+      - checkout
       - restore_cache:
           keys:
             - npm-deps-{{ checksum "package.json" }}
@@ -45,6 +47,7 @@ jobs:
     docker:
       - image: 'circleci/node:latest'
     steps:
+      - checkout
       - restore_cache:
           keys:
             - npm-deps-{{ checksum "package.json" }}
@@ -66,4 +69,5 @@ workflows:
             - prep
       - semantic-release:
           requires:
+            - lint
             - json
