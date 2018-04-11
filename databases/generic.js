@@ -57,7 +57,7 @@
 /**
  * A connection.
  */
-export class Connection {
+module.exports.Connection = class Connection {
     /**
      * Creates a new {@link Connection}.
      * @param {ConnectionOptions} options 
@@ -78,7 +78,7 @@ export class Connection {
 /** 
  * A server.
  */
-export class Server {
+module.exports.Server = class Server {
     /**
      * Creates a new {@link Server}.
      * @param {ServerOptions} options The options for this server.
@@ -98,7 +98,7 @@ export class Server {
 /** 
  * A database.
   */
-export class Database {
+module.exports.Database = class Database {
     /**
      * Creates a new {@link Database}.
      * @param {DatabaseOptions} options The options for this database.
@@ -118,7 +118,7 @@ export class Database {
 /** 
  * A table.
  */
-export class Table {
+module.exports.Table = class Table {
     /**
      * Creates a new {@link Table}.
      * @param {TableOptions} options The options for this table.
@@ -131,7 +131,7 @@ export class Table {
 /** 
  * A row.
  */
-export class Row {
+module.exports.Row = class Row {
     /**
      * Creates a new {@link Row}.
      * @param {RowOptions} options 
@@ -151,7 +151,7 @@ export class Row {
 /** 
  * A key.
  */
-export class Key {
+module.exports.Key = class Key {
     /**
      * Creates a new {@link Key}.
      * @param {KeyOptions} options The options for this key.
