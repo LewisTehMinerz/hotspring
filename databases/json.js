@@ -1,4 +1,4 @@
-import {Connection, Database, Table, Key} from './generic';
+const {Connection, Database, Table, Key} = require('./generic');
 
 const fs = require('fs');
 const Promise = require('bluebird');
@@ -29,7 +29,7 @@ const Promise = require('bluebird');
 /** 
  * A connection to a JSON file.
  */
-export class JSONConnection extends Connection {
+module.exports.JSONConnection = class JSONConnection extends Connection {
     /**
      * Creates a new {@link JSONConnection}.
      * @param {JSONConnectionOptions} options The options for this connection.
@@ -45,7 +45,10 @@ export class JSONConnection extends Connection {
     connect() {
         return new Promise((resolve, reject) => {
             fs.readFile(this.options.filePath, {encoding: 'utf-8'}, (err, data) => {
-                if (err) reject(err);
+                if (err) {
+                    reject(err);
+                    return;
+                }
                 // load json
                 let json = JSON.parse(data);
                 // create temp arrays
@@ -57,20 +60,20 @@ export class JSONConnection extends Connection {
                     // get all keys in this table
                     Object.keys(table).forEach(key => {
                         // push to a temp array for later
-                        tempKeys.push(new JSONKey({
+                        tempKeys.push(new exports.JSONKey({
                             name: key,
                             value: json[table][key]
                         }))
                     });
                     // use tempKeys to build a JSONTable object and push that to the tempTables array
-                    tempTables.push(new JSONTable({
+                    tempTables.push(new exports.JSONTable({
                         name: table,
                         keys: tempKeys
                     }));
                     // rinse and repeat
                 });
                 // create database
-                this.options.database = new JSONDatabase({
+                this.options.database = new exports.JSONDatabase({
                     tables: tempTables
                 });
                 // resolve!
@@ -96,7 +99,7 @@ export class JSONConnection extends Connection {
 /** 
  * A database stored in a JSON file.
  */
-export class JSONDatabase extends Database {
+module.exports.JSONDatabase = class JSONDatabase extends Database {
     /**
      * Creates a new {@link JSONDatabase}.
      * @param {JSONDatabaseOptions} options The options for this database.
@@ -112,6 +115,14 @@ export class JSONDatabase extends Database {
         return this.options.tables;
     }
 
+    /**
+     * Add a table to the database.
+     * @param {JSONTable} table The table to add to this database.
+     */
+    add(table) {
+        this.options.tables.push(table);
+    }
+
     /** 
      * Gets the JSON string for this database.
      * @returns {String} The JSON string.
@@ -119,15 +130,15 @@ export class JSONDatabase extends Database {
     toJSON() {
         // create a blank array to store the table data in
         let base = [];
-        Object.keys(this.tables).forEach(table => {
+        this.tables.forEach(table => {
             // create a blank object to store each key in
             let tableData = {};
-            Object.keys(table.keys).forEach(key => {
+            table.keys.forEach(key => {
                 // add a key to the data
                 tableData[key.name] = key.value;
             });
             // push the table data to the array
-            base.push(tableData);
+            base[table] = tableData;
             // rinse and repeat
         });
         return JSON.stringify(base);
@@ -137,13 +148,20 @@ export class JSONDatabase extends Database {
 /**
  * A table.
  */
-export class JSONTable extends Table {
+module.exports.JSONTable = class JSONTable extends Table {
     /**
      * Creates a new {@link JSONTable}.
      * @param {JSONTableOptions} options The options for this table.
      */
     constructor(options) {
         super(options);
+    }
+
+    /**
+     * Gets the name of the table.
+     */
+    get name() {
+        return this.options.name;
     }
 
     /**
@@ -165,7 +183,7 @@ export class JSONTable extends Table {
 /** 
  * A key.
  */
-export class JSONKey extends Key {
+module.exports.JSONKey = class JSONKey extends Key {
     /**
      * Creates a new {@link JSONKey}.
      * @param {JSONKeyOptions} options The options for this key.
