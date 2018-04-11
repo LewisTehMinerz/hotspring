@@ -13,7 +13,7 @@ jobs:
           name: Install packages
           command: npm install
       - save_cache:
-          key: npm-deps{{ checksum "package.json" }}
+          key: npm-deps-{{ checksum "package.json" }}
           paths:
             - node_modules
 
