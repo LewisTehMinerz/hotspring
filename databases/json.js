@@ -30,6 +30,7 @@ const debug = require('debug')('database:json');
 
 /** 
  * A connection to a JSON file.
+ * @extends Connection
  */
 module.exports.JSONConnection = class JSONConnection extends Connection {
     /**
@@ -111,6 +112,7 @@ module.exports.JSONConnection = class JSONConnection extends Connection {
 
 /** 
  * A database stored in a JSON file.
+ * @extends Database
  */
 module.exports.JSONDatabase = class JSONDatabase extends Database {
     /**
@@ -131,6 +133,7 @@ module.exports.JSONDatabase = class JSONDatabase extends Database {
     /**
      * Gets a table in this database.
      * @param {String} name The name of the table.
+     * @returns {JSONTable|null} The table, if found. Otherwise, null.
      */
     table(name) {
         for (let i = 0; i <= this.options.tables.length; i++) {
@@ -178,6 +181,7 @@ module.exports.JSONDatabase = class JSONDatabase extends Database {
 
 /**
  * A table.
+ * @extends Table
  */
 module.exports.JSONTable = class JSONTable extends Table {
     /**
@@ -205,6 +209,7 @@ module.exports.JSONTable = class JSONTable extends Table {
     /**
      * Gets a key in this table.
      * @param {String} name The name of the key.
+     * @returns {JSONKey|null} The key, if found. Otherwise, null.
      */
     key(name) {
         for (let i = 0; i <= this.options.keys.length; i++) {
@@ -226,6 +231,7 @@ module.exports.JSONTable = class JSONTable extends Table {
 
 /** 
  * A key.
+ * @extends Key
  */
 module.exports.JSONKey = class JSONKey extends Key {
     /**

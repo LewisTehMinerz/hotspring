@@ -60,16 +60,18 @@
 module.exports.Connection = class Connection {
     /**
      * Creates a new {@link Connection}.
-     * @param {ConnectionOptions} options 
+     * @param {ConnectionOptions} options The options for this connection.
      */
     constructor(options) {
         this.options = options;
     }
 
+    /* eslint-disable valid-jsdoc */
     /** 
      * Attempts to connect to the server/database with the specified options given in the constructor.
-     * @returns {Promise} A promise that resolves and returns a {@link Server} if connected, or rejected if it failed to connect.
+     * @returns {Promise<Server>} A promise that resolves and returns a {@link Server} if connected, or rejected if it failed to connect.
      */
+    /* eslint-enable valid-jsdoc */
     connect() {
         throw new Error('Attempting to use Connection to connect to a server or database.');
     }
@@ -134,7 +136,7 @@ module.exports.Table = class Table {
 module.exports.Row = class Row {
     /**
      * Creates a new {@link Row}.
-     * @param {RowOptions} options 
+     * @param {RowOptions} options The options for this row.
      */
     constructor(options) {
         this.options = options;
