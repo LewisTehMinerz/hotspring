@@ -15,5 +15,9 @@
 
 hotspring is a library for communicating with databases.
 
+### Why?
+I wanted a library that simply just allowed me to communicate with multiple databases, each with a slightly different, but mostly similar API. hotspring is meant to do this. It's a library with an easy way to add more databases, simply by extending the generic classes and implementing the needed functions.
+
 ### Supported Databases
 - JSON
+    - While this is technically not a database, and more of a way to store data, it is the first implementation of a hotspring database.
