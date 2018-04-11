@@ -30,15 +30,10 @@ describe('JSON', () => {
         }));
         connection.save().then(() => {
             let dataWritten = fs.readFileSync('./sampledb.json', {encoding: 'utf-8'});
-            if (dataWritten !== '["test_table":{}') {
+            if (dataWritten !== '["test_table":{}]') {
                 throw new Error(dataWritten);
             }
             done();
         });
-    });
-});
-describe('Cleanup', () => {
-    it('delete sampledb', () => {
-        fs.unlinkSync('./sampledb.json');
     });
 });
