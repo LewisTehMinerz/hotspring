@@ -1,1 +1,3 @@
-export * from 'databases/json';
+module.exports = Object.assign(
+    require('./databases/json')
+);
