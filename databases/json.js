@@ -3,6 +3,8 @@ const {Connection, Database, Table, Key} = require('./generic');
 const fs = require('fs');
 const Promise = require('bluebird');
 
+const debug = require('debug')('database:json');
+
 /**
  * Options for a {@link JSONConnection}.
  * @typedef {Object} JSONConnectionOptions
@@ -36,6 +38,7 @@ module.exports.JSONConnection = class JSONConnection extends Connection {
      */
     constructor(options) {
         super(options);
+        debug('debugging is enabled');
     }
 
     /**
@@ -50,6 +53,7 @@ module.exports.JSONConnection = class JSONConnection extends Connection {
                     return;
                 }
                 // load json
+                debug('loading JSON');
                 let json = JSON.parse(data);
                 // create temp arrays
                 let tempTables = [];
@@ -57,15 +61,18 @@ module.exports.JSONConnection = class JSONConnection extends Connection {
                 // read the JSON and get tables
                 // this does a similar thing to JSONDatabase#toJSON, but goes from JSON to the classes.
                 Object.keys(json).forEach(table => {
+                    debug('loading table ' + table);
                     // get all keys in this table
                     Object.keys(table).forEach(key => {
                         // push to a temp array for later
+                        debug('loading key ' + key);
                         tempKeys.push(new exports.JSONKey({
                             name: key,
                             value: json[table][key]
                         }))
                     });
                     // use tempKeys to build a JSONTable object and push that to the tempTables array
+                    debug('adding table to the final table array with keys');
                     tempTables.push(new exports.JSONTable({
                         name: table,
                         keys: tempKeys
@@ -73,10 +80,12 @@ module.exports.JSONConnection = class JSONConnection extends Connection {
                     // rinse and repeat
                 });
                 // create database
+                debug('create database');
                 this.options.database = new exports.JSONDatabase({
                     tables: tempTables
                 });
                 // resolve!
+                debug('finished');
                 resolve(this.options.database);
             });
         });
@@ -90,6 +99,7 @@ module.exports.JSONConnection = class JSONConnection extends Connection {
         return new Promise((resolve, reject) => {
             fs.writeFile(this.options.filePath, this.options.database.toJSON(), err => {
                 if (err) reject(err);
+                debug('saved data');
                 resolve();
             });
         });
@@ -130,14 +140,18 @@ module.exports.JSONDatabase = class JSONDatabase extends Database {
     toJSON() {
         // create a blank array to store the table data in
         let base = [];
+        debug('converting database to JSON');
         this.tables.forEach(table => {
+            debug('loading table ' + table);
             // create a blank object to store each key in
             let tableData = {};
             table.keys.forEach(key => {
+                debug('loading key ' + key);
                 // add a key to the data
                 tableData[key.name] = key.value;
             });
             // push the table data to the array
+            debug('writing table');
             base[table] = tableData;
             // rinse and repeat
         });
