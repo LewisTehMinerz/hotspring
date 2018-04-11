@@ -35,16 +35,15 @@ jobs:
 
 workflows:
   version: 2
-  jobs:
-    test-and-deploy:
-      jobs:
-        - prep
-        - lint:
-            requires:
-              - prep
-        - json:
-            requires:
-              - lint
-        - semantic-release:
-            requires:
-              - json
+  test-and-deploy:
+    jobs:
+      - prep
+      - lint:
+          requires:
+            - prep
+      - json:
+          requires:
+            - lint
+      - semantic-release:
+          requires:
+            - json
