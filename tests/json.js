@@ -1,3 +1,5 @@
+/* eslint-env node, mocha */
+
 const fs = require('fs');
 const {JSONConnection, JSONDatabase, JSONTable, JSONKey} = require('..');
 
