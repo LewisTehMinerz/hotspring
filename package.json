@@ -6,7 +6,7 @@
   "scripts": {
     "test": "node_modules/.bin/mocha",
     "lint": "node_modules/.bin/eslint .",
-    "docs": "node_modules/.bin/jsdoc -r . -c jsdoc.json && mv out docs",
+    "docs": "rm -r docs && node_modules/.bin/jsdoc -r . -c jsdoc.json && mv out docs",
     "semantic-release": "semantic-release"
   },
   "repository": {
