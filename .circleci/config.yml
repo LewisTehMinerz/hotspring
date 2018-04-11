@@ -39,9 +39,12 @@ workflows:
     test-and-deploy:
       jobs:
         - prep
-        - json:
+        - lint:
             requires:
               - prep
+        - json:
+            requires:
+              - lint
         - semantic-release:
             requires:
               - json
