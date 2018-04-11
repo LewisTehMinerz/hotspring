@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>generic.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Connection.html">Connection</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Database.html">Database</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="JSONConnection.html">JSONConnection</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="JSONDatabase.html">JSONDatabase</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="JSONKey.html">JSONKey</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="JSONTable.html">JSONTable</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Key.html">Key</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Row.html">Row</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Server.html">Server</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Table.html">Table</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">generic.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Credentials for {@link ConnectionOptions#credentials}.
+ * @typedef {Object} Credentials
+ * @property {String} username The username.
+ * @property {String} password The password.
+ */
+/**
+ * Options for a {@link Connection}.
+ * @typedef {Object} ConnectionOptions
+ * @property {String} server The IP or domain to connect to.
+ * @property {Number} port The port to connect to.
+ * @property {Credentials} credentials The credentials to connect to this server.
+ */
+/**
+ * Options for a {@link Server}.
+ * @typedef {Object} ServerOptions
+ * @property {Database[]} databases The databases in the server.
+ */
+/**
+ * Options for a {@link Database}.
+ * @typedef {Object} DatabaseOptions
+ * @property {Table[]} tables The tables in the database.
+ */
+/**
+ * A column in a {@link Table}.
+ * @typedef {Object} Column
+ * @property {Number} id The ID of the column. Usually the number of the column starting from zero.
+ * @property {String} type The type of column.
+ */
+/**
+ * Options for a {@link Table}.
+ * @typedef {Object} TableOptions
+ * @property {Column[]} columns The columns of the table.
+ * @property {Row[]} rows The rows of a table.
+ */
+/**
+ * The values of {@link RowOptions#value}.
+ * @typedef {Object} RowValue
+ * @property {Any[]} values The values of the row. Must match up to the amount of columns specified in {@link RowOptions#columns}.
+ */
+/**
+ * Options for a {@link Row}.
+ * @typedef {Object} RowOptions
+ * @property {RowValue} value The value of the row.
+ */
+/**
+ * The value of a {@link KeyOptions} object. Must match up with the type of key, otherwise an error will be thrown.
+ * @typedef {Any} KeyValue
+ */
+/** 
+ * Options for a {@link Key}.
+ * @typedef {Object} KeyOptions
+ * @property {String} type The type of key, such as a boolean, int, string, etc.
+ * @property {KeyValue} value The value of the key.
+*/
+
+/**
+ * A connection.
+ */
+module.exports.Connection = class Connection {
+    /**
+     * Creates a new {@link Connection}.
+     * @param {ConnectionOptions} options 
+     */
+    constructor(options) {
+        this.options = options;
+    }
+
+    /** 
+     * Attempts to connect to the server/database with the specified options given in the constructor.
+     * @returns {Promise} A promise that resolves and returns a {@link Server} if connected, or rejected if it failed to connect.
+     */
+    connect() {
+        throw new Error('Attempting to use Connection to connect to a server or database.');
+    }
+}
+
+/** 
+ * A server.
+ */
+module.exports.Server = class Server {
+    /**
+     * Creates a new {@link Server}.
+     * @param {ServerOptions} options The options for this server.
+     */
+    constructor(options) {
+        this.options = options;
+    }
+
+    /**
+     * Gets the databases for this server. See {@link Database}.
+     */
+    get databases() {
+        return this.options.databases;
+    }
+}
+
+/** 
+ * A database.
+  */
+module.exports.Database = class Database {
+    /**
+     * Creates a new {@link Database}.
+     * @param {DatabaseOptions} options The options for this database.
+     */
+    constructor(options) {
+        this.options = options;
+    }
+
+    /**
+     * Gets the tables for this database. See {@link Table}.
+     */
+    get tables() {
+        return this.options.tables;
+    }
+}
+
+/** 
+ * A table.
+ */
+module.exports.Table = class Table {
+    /**
+     * Creates a new {@link Table}.
+     * @param {TableOptions} options The options for this table.
+     */
+    constructor(options) {
+        this.options = options;
+    }
+}
+
+/** 
+ * A row.
+ */
+module.exports.Row = class Row {
+    /**
+     * Creates a new {@link Row}.
+     * @param {RowOptions} options 
+     */
+    constructor(options) {
+        this.options = options;
+    }
+
+    /**
+     * Gets the value of this row.
+     */
+    get value() {
+        return this.options.value;
+    }
+}
+
+/** 
+ * A key.
+ */
+module.exports.Key = class Key {
+    /**
+     * Creates a new {@link Key}.
+     * @param {KeyOptions} options The options for this key.
+     */
+    constructor(options) {
+        this.options = options;
+    }
+
+    /**
+     * Gets the type of the key.
+     */
+    get type() {
+        return this.options.type;
+    }
+
+    /**
+     * Gets the value of the key.
+     */
+    get value() {
+        return this.options.value;
+    }
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Apr 11 2018 20:58:40 GMT+0100 (DST) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
