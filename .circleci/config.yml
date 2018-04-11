@@ -4,15 +4,26 @@ jobs:
     docker:
       - image: 'circleci/node:latest'
     steps:
+      - restore_cache:
+          keys:
+            - npm-deps-{{ checksum "package.json" }}
+            - npm-deps-
       - checkout
       - run:
           name: Install packages
           command: npm install
+      - save_cache:
+          keys:
+            - npm-deps{{ checksum "package.json" }}
 
   lint:
     docker:
       - image: 'circleci/node:latest'
     steps:
+      - restore_cache:
+          keys:
+            - npm-deps-{{ checksum "package.json" }}
+            - npm-deps-
       - run:
           name: Linting code
           command: npm run lint
@@ -21,6 +32,10 @@ jobs:
     docker:
       - image: 'circleci/node:latest'
     steps:
+      - restore_cache:
+          keys:
+            - npm-deps-{{ checksum "package.json" }}
+            - npm-deps-
       - run:
           name: Run test [JSON]
           command: npm run test-json
@@ -29,6 +44,10 @@ jobs:
     docker:
       - image: 'circleci/node:latest'
     steps:
+      - restore_cache:
+          keys:
+            - npm-deps-{{ checksum "package.json" }}
+            - npm-deps-
       - run:
           name: Running semantic-release
           command: npm run semantic-release || true
@@ -43,7 +62,7 @@ workflows:
             - prep
       - json:
           requires:
-            - lint
+            - prep
       - semantic-release:
           requires:
             - json
