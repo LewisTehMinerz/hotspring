@@ -41,7 +41,7 @@ jobs:
             - npm-deps-
       - run:
           name: Run test [JSON]
-          command: npm run test-json
+          command: npm run test tests/json
 
   semantic-release:
     docker:
