@@ -2,7 +2,7 @@
 <h1 align="center">hotspring</h1>
 <p align="center">
     <a href="https://circleci.com/gh/LewisTehMinerz/hotspring">
-        <img alt="circleci" src="https://img.shields.io/circleci/project/github/LewisTehMinerz/hotspring.svg?style=for-the-badge">
+        <img alt="circleci" src="https://img.shields.io/circleci/project/github/LewisTehMinerz/hotspring.svg?style=for-the-badge&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAFAAAABQBXIyBfAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAETSURBVCiRlZLPKkVRGMV/+yQTKXfkBdw8gu6AjAyQMvMYklLcugZSRgYyIyYyMpNkRhkwMZTyBLrcGPhzo5+BfWp3nKOs4W6ttde3vg8SqMPqlnqnvqnP6rXaVGuUQV1Su1bjUZ0qitb+EKT4VKcBgjoKnAMh+nSBA+ACqAEzwHjyTweoo54mju/qWCFNiDOmWA3qLtAfeSchhH11EFgB2sBGTHEJNCLvpqqow8R9ISkvx0tWqixHyrVH3QP64sNZCGEHmAceYtRtNQNmE+E96nES4UOdKMTO1PVCOa2gNuLg+Tq+gCN+VtQLzAEjidcTUM9dW/84gF/XsxijVqGtTpbWpg6pm+qt+qp21Ct1WR1Iud9rHH2qChMm7QAAAABJRU5ErkJggg==">
     </a>
     <a href="https://codeclimate.com/github/LewisTehMinerz/hotspring/maintainability">
         <img alt="maintainability" src="https://img.shields.io/codeclimate/maintainability/LewisTehMinerz/hotspring.svg?style=for-the-badge">
